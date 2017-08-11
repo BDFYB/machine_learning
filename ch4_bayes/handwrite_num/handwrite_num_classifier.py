@@ -22,6 +22,7 @@ def train_nb0(train_matrix, train_category):
     for i in range(num_train_docs):
         p_num[train_category[i]] += train_matrix[i]
         p_denom[train_category[i]] += sum(train_matrix[i])
+        #p_denom[train_category[i]] += 1
 
     for i in range(10):
         for j in range(len(p_num[i])):
@@ -43,13 +44,13 @@ def classify_using_nb(target_vec, p_vec, category_possiblity):
 
 
 if __name__ == "__main__":
-    trainning_files = os.listdir("./handwrite_num/trainingDigits")
+    trainning_files = os.listdir("./trainingDigits")
     #training
     training_mat = []
     training_label = []
     for one_file in trainning_files:
         single_vector = []
-        fd = open("./handwrite_num/trainingDigits/%s" % one_file)
+        fd = open("./trainingDigits/%s" % one_file)
         training_label.append(int(one_file.split('_')[0]))
         for i in range(32):
             line = fd.readline()
@@ -62,12 +63,12 @@ if __name__ == "__main__":
     #print p_vec
 
     #testing
-    testing_file = os.listdir("./handwrite_num/testDigits")
+    testing_file = os.listdir("./testDigits")
     err_num = 0
     total_num = len(testing_file)
     for one_file in testing_file:
         actual = int(one_file.split('_')[0])
-        fd = open("./handwrite_num/testDigits/%s" % one_file)
+        fd = open("./testDigits/%s" % one_file)
         test_vec = []
         for i in range(32):
             line = fd.readline()
