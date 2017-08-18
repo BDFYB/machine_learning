@@ -28,7 +28,7 @@ def gradAscent(dataMatIn, classLabels):
         h = sigmoid(dataMatrix*weights)     #matrix mult
         error = (labelMat - h)              #vector subtraction
         weights = weights + alpha * dataMatrix.transpose()* error #matrix mult
-    return weights
+    return numpy.mat(weights).transpose()
 
 def plotBestFit(weights):
     import matplotlib.pyplot as plt
@@ -59,8 +59,8 @@ def stocGradAscent0(dataMatrix, classLabels):
     for i in range(m):
         h = sigmoid(sum(dataMatrix[i]*weights))
         error = classLabels[i] - h
-        weights = weights + alpha * error * dataMatrix[i]
-    return weights
+        weights = weights + alpha * error * array(dataMatrix[i])
+    return numpy.mat(weights).transpose()
 
 def stocGradAscent1(dataMatrix, classLabels, numIter=150):
     m,n = shape(dataMatrix)
@@ -72,9 +72,9 @@ def stocGradAscent1(dataMatrix, classLabels, numIter=150):
             randIndex = int(random.uniform(0,len(dataIndex)))#go to 0 because of the constant
             h = sigmoid(sum(dataMatrix[randIndex]*weights))
             error = classLabels[randIndex] - h
-            weights = weights + alpha * error * dataMatrix[randIndex]
+            weights = weights + alpha * error * array(dataMatrix[randIndex])
             del(dataIndex[randIndex])
-    return weights
+    return numpy.mat(weights).transpose()
 
 def classifyVector(inX, weights):
     prob = sigmoid(sum(inX*weights))
