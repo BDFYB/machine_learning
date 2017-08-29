@@ -107,16 +107,22 @@ def calculate_w(alphas, data_arr, class_labels):
 if __name__ == "__main__":
     data_mat, label_mat = load_data("./testSetRBF.txt")
     b, alphas = smo_with_kernel(data_mat, label_mat, 0.6, 0.001, 40)
+    support_vec = 0
     for i in range(len(alphas)):
         if alphas[i] != 0:
-            print 'supprot vector:', data_mat[i], label_mat[i]
+            support_vec += 1
+            #print 'supprot vector:', data_mat[i], label_mat[i]
+    print 'num of support vecotr: %d' % support_vec
     w = calculate_w(alphas, data_mat, label_mat)
     det = 0
     total_no = len(data_mat)
     err_no = 0
+    tmp_w = sum(alphas * numpy.mat(label_mat))
+    print tmp_w
     for i in range(total_no):
         total_no += 1
-        determine = w.T * numpy.mat(data_mat[i]).T + b
+        #determine = w.T * numpy.mat(data_mat[i]).T + b
+        determine = tmp_w * kernel_trans(numpy.mat(data_mat)[i,:], numpy.mat(data_mat)[i,:], 'rbf', 4) + b
         if determine > 0:
             det = 1
         else:

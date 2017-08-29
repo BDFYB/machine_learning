@@ -54,7 +54,7 @@ def smo_with_kernel(dataMatIn, classLabels, C, toler, maxIter):
     labelMat = mat(classLabels).transpose()
     b = 0; m,n = shape(dataMatrix)
     alphas = mat(zeros((m,1)))
-    sigma = 5
+    sigma = 1
     iter = 0
     while (iter < maxIter):
         alphaPairsChanged = 0
@@ -124,9 +124,11 @@ if __name__ == "__main__":
     det = 0
     total_no = len(testing_data_mat)
     err_no = 0
+    tmp_w = sum(alphas * numpy.mat(training_label_mat))
     for i in range(total_no):
         total_no += 1
-        determine = w.T * numpy.mat(testing_data_mat[i]).T + b
+        #determine = w.T * numpy.mat(testing_data_mat[i]).T + b
+        determine = tmp_w * kernel_trans(numpy.mat(training_data_mat)[i,:], numpy.mat(testing_data_mat)[i,:], 'rbf', 4) + b
         if determine > 0:
             det = 1
         else:
